@@ -18,14 +18,17 @@
 #'
 #' @export
 hi <- function(who, how=c("shout", "whisper", "asis")) {
-    stopifnot(
-        is.character(who), length(who) == 1,
-        !anyNA(who), nzchar(who)
-    )
+    stopifnot(is_scalar_character(who))
+
     how <- match.arg(how)
 
     fun <- switch(how,
         shout=toupper, whisper=tolower, asis=identity
     )
     paste("hi", fun(who), "how are you?")
+}
+
+is_scalar_character <- function(x) {
+    is.character(x) && length(x) == 1 &&
+        !anyNA(x) && nzchar(x)
 }
